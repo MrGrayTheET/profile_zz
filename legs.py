@@ -6,19 +6,15 @@ import pandas as pd
 import numpy as np
 import datetime as dt
 from matplotlib import pyplot as plt
-from sc_loader import sierra_charts as sc
-from screener.indicators import tr
+from .sc_loader.sc_loader import sierra_charts as sc
+from .screener.indicators import tr
 from scipy.stats import gaussian_kde
 from scipy.signal import find_peaks
 from plotly import graph_objects as go
 import plotly.express as px
 import plotly.io as pio
 
-sch = sc()
-
-df = sch.get_chart('LE_F', formatted=True, resample=True, resample_period='15min')
-
-intraday_df = sch.load_intraday('LE_F')
+sch = sc('/content/profile_zz/profile_zz/sc_loader/data_config.toml')
 
 
 class trend_zz:
@@ -340,12 +336,3 @@ class vol_prof:
         )
         return fig
 
-
-pio.renderers.default = 'browser'
-dates = ('2024-01-01', '2024-01-17')
-
-levp = vol_prof(intraday_df, kde_factor=0.11, num_samples=300, max_width_ticks=250)
-
-slice_prof = levp[dates[0]:dates[1]]
-
-levp.dist_fig.show()
