@@ -135,7 +135,7 @@ class sierra_charts:
         resample_data = False
 
       for ticker in self.tickers:
-        self.format_chart(self.unformatted_aliases[ticker], resample=resample_data, resample_len=resample_period,
+        self.format_chart(self.unformatted_charts+self.unformatted_aliases[ticker], resample=resample_data, resample_len=resample_period,
         save=True, type=type,alias=ticker, new_file=ticker+'_')
       
       return
