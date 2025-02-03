@@ -128,9 +128,17 @@ class sierra_charts:
 
         return print('Saved to: ' + f'{f_path}')
 
-    def format_files(self, resample_period='5min'):
-            [self.get_chart(i, save_formatted=True, new_file=i+'_'+resample_period, new_alias=i+resample_period, resample=True, resample_period=resample_period) for i in self.tickers]
+    def format_files(self,type='intraday', resample_period='5min'):
+      if type == 'formatted':
+        resample_data = True
+      else:
+        resample_data = False
 
+      for ticker in self.tickers:
+        self.format_chart(self.unformatted_aliases[ticker], resample=resample_data, resample_len=resample_period,
+        save=True, type=type,alias=ticker, new_file=ticker+'_')
+      
+      return
 
 
     def file_list(self,unformatted=True):
@@ -163,7 +171,7 @@ class sierra_charts:
         else:
             path = self.config_data['paths']['unformatted']
 
-        for basket, entries  in file_dict.items():
+        for alias, file_names  in file_dict.items():
             for i in range(len(entries['aliases'])):
                 self.format_chart(path+entries['files'][i], save=True, type=type, alias=entries['aliases'][i], new_file=entries['files'][i]+new_file_format)
 
